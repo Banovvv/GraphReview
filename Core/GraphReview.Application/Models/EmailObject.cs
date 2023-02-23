@@ -23,9 +23,5 @@ namespace GraphReview.Application.Models
         public string Subject { get; set; }
         public string Body { get; set; }
         public List<string> Recipients { get; set; }
-        public List<string>? Ccs { get; set; }
-        public List<string>? Bccs { get; set; }
-        public List<string>? Attachments { get; set; }
-        public List<string>? InlineAttachments { get; set; }
     }
 }
