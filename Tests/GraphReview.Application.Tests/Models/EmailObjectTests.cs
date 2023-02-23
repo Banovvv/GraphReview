@@ -29,7 +29,7 @@ namespace GraphReview.Application.Tests.Models
             email.Body.Should().Be(body);
             email.Recipients.Should().NotBeNull();
             email.Recipients.Should().NotBeEmpty();
-            email.Recipients.Count.Should().Be(recepients.Count);
+            email.Recipients.Count().Should().Be(recepients.Count);
             email.Recipients.Should().BeEquivalentTo(recepients);
         }
     }

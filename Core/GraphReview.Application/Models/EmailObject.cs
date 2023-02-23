@@ -9,19 +9,19 @@ namespace GraphReview.Application.Models
             string replyTo,
             string subject,
             string body,
-            List<string> recipients)
+            IEnumerable<string> recipients)
         {
             From = Guard.Against.NullOrWhiteSpace(from);
             ReplyTo = Guard.Against.NullOrWhiteSpace(replyTo);
             Subject = Guard.Against.NullOrWhiteSpace(subject);
             Body = Guard.Against.NullOrWhiteSpace(body);
-            Recipients = Guard.Against.Null(recipients);
+            Recipients = Guard.Against.NullOrEmpty(recipients);
         }
 
         public string From { get; set; }
         public string ReplyTo { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
-        public List<string> Recipients { get; set; }
+        public IEnumerable<string> Recipients { get; set; }
     }
 }
