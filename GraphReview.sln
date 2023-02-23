@@ -7,13 +7,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{3ECAA989-C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{0F870559-4DBD-4BFD-9452-37F4F3ABA561}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphReview.Domain", "Core\GraphReview.Domain\GraphReview.Domain.csproj", "{BDC1F221-9D76-488D-8716-B2EB900DEF4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphReview.Domain", "Core\GraphReview.Domain\GraphReview.Domain.csproj", "{BDC1F221-9D76-488D-8716-B2EB900DEF4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphReview.Application", "Core\GraphReview.Application\GraphReview.Application.csproj", "{733532CA-D13A-454B-BBD7-1CE143CF79E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphReview.Application", "Core\GraphReview.Application\GraphReview.Application.csproj", "{733532CA-D13A-454B-BBD7-1CE143CF79E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphReview.Infrastructure", "External\GraphReview.Infrastructure\GraphReview.Infrastructure.csproj", "{5CF13CD4-2618-4549-9C26-5E07C9A17C63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphReview.Infrastructure", "External\GraphReview.Infrastructure\GraphReview.Infrastructure.csproj", "{5CF13CD4-2618-4549-9C26-5E07C9A17C63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphReview.Api", "External\GraphReview.Api\GraphReview.Api.csproj", "{D9A945D5-1056-40B4-A84E-980D837C51C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphReview.Api", "External\GraphReview.Api\GraphReview.Api.csproj", "{D9A945D5-1056-40B4-A84E-980D837C51C9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{80839A40-C169-4D7E-B787-A3266D1C8F27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphReview.Tests", "Tests\GraphReview.Tests\GraphReview.Tests.csproj", "{1B6AE973-EC4E-416F-9156-D65002E5659F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +41,10 @@ Global
 		{D9A945D5-1056-40B4-A84E-980D837C51C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9A945D5-1056-40B4-A84E-980D837C51C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9A945D5-1056-40B4-A84E-980D837C51C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B6AE973-EC4E-416F-9156-D65002E5659F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B6AE973-EC4E-416F-9156-D65002E5659F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B6AE973-EC4E-416F-9156-D65002E5659F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B6AE973-EC4E-416F-9156-D65002E5659F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +54,7 @@ Global
 		{733532CA-D13A-454B-BBD7-1CE143CF79E9} = {3ECAA989-C71C-4B3A-AAE9-E7419CF95CB0}
 		{5CF13CD4-2618-4549-9C26-5E07C9A17C63} = {0F870559-4DBD-4BFD-9452-37F4F3ABA561}
 		{D9A945D5-1056-40B4-A84E-980D837C51C9} = {0F870559-4DBD-4BFD-9452-37F4F3ABA561}
+		{1B6AE973-EC4E-416F-9156-D65002E5659F} = {80839A40-C169-4D7E-B787-A3266D1C8F27}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ACCBDBBC-F0B5-4481-9A2A-F50968D5536A}
