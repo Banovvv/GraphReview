@@ -1,3 +1,6 @@
+using GraphReview.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace GraphReview.Api
 {
     public class Program
@@ -9,6 +12,11 @@ namespace GraphReview.Api
                 builder.Services.AddControllers();
                 builder.Services.AddEndpointsApiExplorer();
                 builder.Services.AddSwaggerGen();
+
+                builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                {
+                    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
+                });
             }
 
             var app = builder.Build();

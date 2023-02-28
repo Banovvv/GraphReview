@@ -8,6 +8,7 @@
             FirstName = firstName;
             LastName = lastName;
             Email = email;
+            Reviews = new List<Review>();
         }
 
         public string Id { get; set; }
@@ -17,5 +18,10 @@
 
         public string? DepartmentId { get; set; }
         public virtual Department? Department { get; set; }
+
+        public string? ManagedDepartmentId { get; set; }
+        public virtual Department? ManagedDepartment { get; set; }
+
+        public virtual ICollection<Review> Reviews { get; set; }
     }
 }
