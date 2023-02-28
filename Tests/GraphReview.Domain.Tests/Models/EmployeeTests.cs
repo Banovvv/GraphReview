@@ -21,6 +21,7 @@ namespace GraphReview.Domain.Tests.Models
             employee.Email.Should().Be(email);
             employee.FirstName.Should().Be(firstName);
             employee.LastName.Should().Be(lastName);
+            employee.Reviews.Should().NotBeNull();
         }
     }
 }

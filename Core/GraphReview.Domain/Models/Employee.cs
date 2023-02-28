@@ -8,6 +8,7 @@
             FirstName = firstName;
             LastName = lastName;
             Email = email;
+            Reviews = new List<Review>();
         }
 
         public string Id { get; set; }
