@@ -29,9 +29,7 @@ namespace GraphReview.Infrastructure.Data.Configurations
             review.Property(x => x.Duration)
                 .IsRequired();
 
-            review.HasOne(x => x.Reviewer)
-                .WithMany(r => r.Reviews)
-                .HasForeignKey(x => x.ReviewerId);
+            review.HasOne(x => x.Reviewer);
 
             review.HasOne(x => x.Reviewee)
                 .WithMany(r => r.Reviews)

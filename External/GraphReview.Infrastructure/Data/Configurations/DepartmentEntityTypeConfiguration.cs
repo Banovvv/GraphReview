@@ -25,10 +25,12 @@ namespace GraphReview.Infrastructure.Data.Configurations
                 .IsUnicode();
 
             department.HasMany(x => x.Employees)
-                .WithOne(x => x.Department)
+                .WithOne(e => e.Department)
                 .HasForeignKey(x => x.DepartmentId);
 
-            department.HasOne(x => x.Manager);
+            department.HasOne(x => x.Manager)
+                .WithOne(m => m.ManagedDepartment)
+                .HasForeignKey<Employee>(x => x.ManagedDepartmentId);
         }
     }
 }
