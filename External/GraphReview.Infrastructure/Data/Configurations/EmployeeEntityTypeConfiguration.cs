@@ -37,6 +37,10 @@ namespace GraphReview.Infrastructure.Data.Configurations
             employee.HasMany(x => x.Reviews)
                 .WithOne(r => r.Reviewee)
                 .HasForeignKey(x => x.RevieweeId);
+
+            employee.HasOne(x => x.Department)
+                .WithMany(d => d.Employees)
+                .HasForeignKey(x => x.DepartmentId);
         }
     }
 }

@@ -17,6 +17,7 @@ namespace GraphReview.Domain.Tests.Models
             department.Should().NotBeNull();
             department.Id.Should().NotBeNullOrWhiteSpace();
             department.Name.Should().Be(name);
+            department.Employees.Should().NotBeNull();
         }
     }
 }
