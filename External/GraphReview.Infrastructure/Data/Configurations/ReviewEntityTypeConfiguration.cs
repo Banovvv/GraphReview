@@ -30,7 +30,7 @@ namespace GraphReview.Infrastructure.Data.Configurations
                 .IsRequired();
 
             review.HasOne(x => x.Reviewer)
-                .WithMany(r => r.ReviewsAsReviwer)
+                .WithMany(r => r.ReviewsAsReviewer)
                 .HasForeignKey(x => x.ReviewerId)
                 .OnDelete(DeleteBehavior.NoAction);
 
