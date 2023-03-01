@@ -29,11 +29,15 @@ namespace GraphReview.Infrastructure.Data.Configurations
             review.Property(x => x.Duration)
                 .IsRequired();
 
-            review.HasOne(x => x.Reviewer);
+            review.HasOne(x => x.Reviewer)
+                .WithMany(r => r.ReviewsAsReviwer)
+                .HasForeignKey(x => x.ReviewerId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             review.HasOne(x => x.Reviewee)
                 .WithMany(r => r.Reviews)
-                .HasForeignKey(x => x.RevieweeId);
+                .HasForeignKey(x => x.RevieweeId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

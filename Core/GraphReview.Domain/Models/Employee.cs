@@ -9,6 +9,7 @@
             LastName = lastName;
             Email = email;
             Reviews = new List<Review>();
+            ReviewsAsReviwer = new List<Review>();
         }
 
         public string Id { get; set; }
@@ -23,5 +24,6 @@
         public virtual Department? ManagedDepartment { get; set; }
 
         public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<Review> ReviewsAsReviwer { get; set; }
     }
 }

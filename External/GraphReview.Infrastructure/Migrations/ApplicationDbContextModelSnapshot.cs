@@ -140,13 +140,13 @@ namespace GraphReview.Infrastructure.Migrations
                     b.HasOne("GraphReview.Domain.Models.Employee", "Reviewee")
                         .WithMany("Reviews")
                         .HasForeignKey("RevieweeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("GraphReview.Domain.Models.Employee", "Reviewer")
-                        .WithMany()
+                        .WithMany("ReviewsAsReviwer")
                         .HasForeignKey("ReviewerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Reviewee");
@@ -164,6 +164,8 @@ namespace GraphReview.Infrastructure.Migrations
             modelBuilder.Entity("GraphReview.Domain.Models.Employee", b =>
                 {
                     b.Navigation("Reviews");
+
+                    b.Navigation("ReviewsAsReviwer");
                 });
 #pragma warning restore 612, 618
         }

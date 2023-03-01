@@ -68,14 +68,12 @@ namespace GraphReview.Infrastructure.Migrations
                         name: "FK_Reviews_Employees_RevieweeId",
                         column: x => x.RevieweeId,
                         principalTable: "Employees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Reviews_Employees_ReviewerId",
                         column: x => x.ReviewerId,
                         principalTable: "Employees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
