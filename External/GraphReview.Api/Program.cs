@@ -11,9 +11,9 @@ namespace GraphReview.Api
         {
             var builder = WebApplication.CreateBuilder(args);
             {
+                builder.Services.AddSwaggerGen();
                 builder.Services.AddControllers();
                 builder.Services.AddEndpointsApiExplorer();
-                builder.Services.AddSwaggerGen();
 
                 builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 {
