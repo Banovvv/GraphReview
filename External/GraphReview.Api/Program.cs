@@ -1,3 +1,5 @@
+using GraphReview.Application;
+using GraphReview.Infrastructure;
 using GraphReview.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +19,9 @@ namespace GraphReview.Api
                 {
                     options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
                 });
+
+                builder.Services.AddApplicationServices();
+                builder.Services.AddInfrastructureServices();
             }
 
             var app = builder.Build();

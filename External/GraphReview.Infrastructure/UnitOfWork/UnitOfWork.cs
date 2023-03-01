@@ -1,7 +1,7 @@
 ﻿using GraphReview.Domain.Repositories;
 using GraphReview.Domain.UnitOfWork;
 
-namespace GraphReview.Infrastructure.UnitOfWork
+namespace GraphReview.Infrastructure
 {
     public class UnitOfWork : IUnitOfWork
     {

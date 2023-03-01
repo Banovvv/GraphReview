@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\GraphReview.Application\GraphReview.Application.csproj" />
     <ProjectReference Include="..\GraphReview.Infrastructure\GraphReview.Infrastructure.csproj" />
   </ItemGroup>
 
