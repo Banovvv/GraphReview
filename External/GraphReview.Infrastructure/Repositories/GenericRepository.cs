@@ -31,7 +31,7 @@ namespace GraphReview.Infrastructure.Repositories
             return await DbSet.ToListAsync<TEntity>(cancellationToken);
         }
 
-        public async Task<TEntity?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+        public async Task<TEntity?> GetByIdAsync(string id, CancellationToken cancellationToken = default)
         {
             return await DbSet.FindAsync(new object[] { id }, cancellationToken);
         }
