@@ -1,5 +1,6 @@
 using AutoFixture;
 using FluentAssertions;
+using GraphReview.Application.Tests.Helpers;
 using GraphReview.Domain.Models;
 using GraphReview.Infrastructure.Data;
 using GraphReview.Infrastructure.Repositories;
@@ -16,7 +17,7 @@ namespace GraphReview.Infrastructure.Tests.Repositories
 
         public GenericRepositoryTests()
         {
-            _fixture = SetupFixture();
+            _fixture = TestHelper.SetupFixture();
 
             _employee = _fixture.Build<Employee>()
                 .Create();
@@ -103,18 +104,6 @@ namespace GraphReview.Infrastructure.Tests.Repositories
             entity.FirstName.Should().NotBe(unchangedEntity.FirstName);
             entity.LastName.Should().Be(unchangedEntity.LastName);
             entity.Email.Should().Be(unchangedEntity.Email);
-        }
-
-        private static IFixture SetupFixture()
-        {
-            var fixture = new Fixture();
-
-            fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
-                .ForEach(b => fixture.Behaviors.Remove(b));
-
-            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
-
-            return fixture;
         }
     }
 }
