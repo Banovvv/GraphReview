@@ -18,7 +18,8 @@ namespace GraphReview.Infrastructure.Repositories
 
         public async Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
-            await _context.AddAsync(entity, cancellationToken);
+            await _context
+                .AddAsync(entity, cancellationToken);
         }
 
         public void Delete(TEntity entity)
@@ -28,12 +29,14 @@ namespace GraphReview.Infrastructure.Repositories
 
         public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            return await DbSet.ToListAsync<TEntity>(cancellationToken);
+            return await DbSet
+                .ToListAsync<TEntity>(cancellationToken);
         }
 
         public async Task<TEntity?> GetByIdAsync(string id, CancellationToken cancellationToken = default)
         {
-            return await DbSet.FindAsync(new object[] { id }, cancellationToken);
+            return await DbSet
+                .FindAsync(new object[] { id }, cancellationToken);
         }
 
         public void Update(TEntity entity)

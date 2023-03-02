@@ -7,6 +7,6 @@ namespace GraphReview.Domain.UnitOfWork
         IReviewRepository ReviewRepository { get; }
         IEmployeeRepository EmployeeRepository { get; }
         IDepartmentRepository DepartmentRepository { get; }
-        Task<int> SaveChangesAsync();
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
