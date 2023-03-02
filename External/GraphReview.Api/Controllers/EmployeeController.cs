@@ -17,10 +17,17 @@ namespace GraphReview.Api.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<EmployeeResponse>> GetEmployeeById(string id)
         {
             var employee = await _employeeService
                 .GetByIdAsync(id);
+
+            if (employee == null)
+            {
+                return NotFound();
+            }
 
             var response = new EmployeeResponse()
             {
@@ -34,6 +41,7 @@ namespace GraphReview.Api.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<ActionResult<EmployeeResponse>> CreateEmployee(EmployeeRequest request)
         {
             var employee = new Employee(request.FirstName, request.LastName, request.Email);
