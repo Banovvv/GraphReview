@@ -24,19 +24,26 @@ namespace GraphReview.Application.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Employee>> GetAllAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Employee>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await _unitOfWork.EmployeeRepository
+                .GetAllAsync(cancellationToken);
         }
 
-        public Task<IEnumerable<Employee>> GetAllByDepartmentAsync(string departmentId, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Employee>> GetAllByDepartmentAsync(string departmentId, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var deparment = await _unitOfWork.DepartmentRepository
+                .GetByIdAsync(departmentId, cancellationToken) ??
+                throw new DepartmentNotFoundException("Department not found!");
+
+            return await _unitOfWork.EmployeeRepository
+                .GetAllByDepartmentAsync(departmentId, cancellationToken);
         }
 
         public async Task<Employee> GetByIdAsync(string id, CancellationToken cancellationToken = default)
         {
-            return await _unitOfWork.EmployeeRepository.GetByIdAsync(id, cancellationToken) ??
+            return await _unitOfWork.EmployeeRepository
+                .GetByIdAsync(id, cancellationToken) ??
                 throw new EmployeeNotFoundException("Employee not found!");
         }
     }

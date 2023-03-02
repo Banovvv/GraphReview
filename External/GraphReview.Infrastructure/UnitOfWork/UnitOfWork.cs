@@ -1,17 +1,23 @@
 ﻿using GraphReview.Domain.Repositories;
 using GraphReview.Domain.UnitOfWork;
+using GraphReview.Infrastructure.Data;
+using GraphReview.Infrastructure.Repositories;
 
 namespace GraphReview.Infrastructure
 {
     public class UnitOfWork : IUnitOfWork
     {
-        public UnitOfWork()
+        private readonly ApplicationDbContext _context;
+
+        public UnitOfWork(ApplicationDbContext context)
         {
+            _context = context;
+            EmployeeRepository = new EmployeeRepository(_context);
         }
 
         public IReviewRepository ReviewRepository => throw new NotImplementedException();
 
-        public IEmployeeRepository EmployeeRepository => throw new NotImplementedException();
+        public IEmployeeRepository EmployeeRepository { get; }
 
         public IDepartmentRepository DepartmentRepository => throw new NotImplementedException();
 
@@ -20,9 +26,9 @@ namespace GraphReview.Infrastructure
             throw new NotImplementedException();
         }
 
-        public Task<int> SaveChangesAsync()
+        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

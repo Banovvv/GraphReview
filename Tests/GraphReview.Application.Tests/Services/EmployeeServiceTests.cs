@@ -60,5 +60,55 @@ namespace GraphReview.Application.Tests.Services
                 .ThrowAsync<EmployeeNotFoundException>()
                 .WithMessage("Employee not found!");
         }
+
+        [Fact]
+        public async Task WhenGetAllAsyncIsInvoked_ThenFullListOfEmployeesIsReturned()
+        {
+            // Arrange
+            var employees = _fixture.Build<Employee>().CreateMany(5);
+            _unitOfWork.Setup(x => x.EmployeeRepository.GetAllAsync(default)).ReturnsAsync(employees);
+
+            // Act
+            var result = await _employeeService.GetAllAsync();
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Count().Should().Be(5);
+        }
+
+        [Fact]
+        public async Task GivenValidDepartmentId_WhenGetAllByDepartmentAsyncIsInvoked_ThenFullListOfEmployeesIsReturned()
+        {
+            // Arrange
+            var department = _fixture.Build<Department>().Create();
+            var employees = _fixture.Build<Employee>()
+                .With(x => x.DepartmentId, department.Id)
+                .CreateMany(5);
+            _unitOfWork.Setup(x => x.DepartmentRepository.GetByIdAsync(department.Id, default)).ReturnsAsync(department);
+            _unitOfWork.Setup(x => x.EmployeeRepository.GetAllByDepartmentAsync(department.Id, default)).ReturnsAsync(employees);
+
+            // Act
+            var result = await _employeeService.GetAllByDepartmentAsync(department.Id);
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Count().Should().Be(5);
+        }
+
+        [Fact]
+        public async Task GivenInvalidDepartmentId_WhenGetAllByDepartmentAsyncIsInvoked_ThenExceptionIsThrown()
+        {
+            // Arrange
+            var departmentId = Guid.NewGuid().ToString();
+            _unitOfWork.Setup(x => x.DepartmentRepository.GetByIdAsync(departmentId, default)).ReturnsAsync((Department)null);
+
+            // Act
+            Func<Task> act = async () => await _employeeService.GetAllByDepartmentAsync(departmentId);
+
+            // Assert
+            await act.Should()
+                .ThrowAsync<DepartmentNotFoundException>()
+                .WithMessage("Department not found!");
+        }
     }
 }
