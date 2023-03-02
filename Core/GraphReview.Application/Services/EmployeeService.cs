@@ -14,12 +14,18 @@ namespace GraphReview.Application.Services
             _unitOfWork = unitOfWork;
         }
 
-        public Task<bool> AddAsync(Employee employee, CancellationToken cancellationToken = default)
+        public async Task<bool> AddAsync(Employee employee, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            await _unitOfWork.EmployeeRepository
+                .AddAsync(employee, cancellationToken);
+
+            await _unitOfWork
+                .SaveChangesAsync(cancellationToken);
+
+            return true;
         }
 
-        public async Task DeleteAsync(string id, CancellationToken cancellationToken = default)
+        public async Task<bool> DeleteAsync(string id, CancellationToken cancellationToken = default)
         {
             var employee = await _unitOfWork.EmployeeRepository
                 .GetByIdAsync(id, cancellationToken) ??
@@ -30,6 +36,8 @@ namespace GraphReview.Application.Services
 
             await _unitOfWork
                 .SaveChangesAsync(cancellationToken);
+
+            return true;
         }
 
         public async Task<IEnumerable<Employee>> GetAllAsync(CancellationToken cancellationToken = default)

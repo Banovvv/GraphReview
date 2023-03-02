@@ -110,5 +110,48 @@ namespace GraphReview.Application.Tests.Services
                 .ThrowAsync<DepartmentNotFoundException>()
                 .WithMessage("Department not found!");
         }
+
+        [Fact]
+        public async Task GivenValidId_WhenDeleteAsyncIsInvoked_ThenEntityIsDeleted()
+        {
+            // Arrange
+            var employee = _fixture.Build<Employee>().Create();
+            _unitOfWork.Setup(x => x.EmployeeRepository.GetByIdAsync(employee.Id, default)).ReturnsAsync(employee);
+
+            // Act
+            var result = await _employeeService.DeleteAsync(employee.Id);
+
+            // Assert
+            result.Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task GivenInvalidId_WhenDeleteAsyncIsInvoked_ThenExceptionIsThrown()
+        {
+            // Arrange
+            var id = Guid.NewGuid().ToString();
+            _unitOfWork.Setup(x => x.EmployeeRepository.GetByIdAsync(id, default)).ReturnsAsync((Employee)null);
+
+            // Act
+            Func<Task> act = async () => await _employeeService.DeleteAsync(id);
+
+            // Assert
+            await act.Should()
+                .ThrowAsync<EmployeeNotFoundException>()
+                .WithMessage("Employee not found!");
+        }
+
+        [Fact]
+        public async Task GivenValidEntity_WhenAddAsyncIsInvoked_ThenEntityIsAdded()
+        {
+            // Arrange
+            var employee = _fixture.Build<Employee>().Create();
+
+            // Act
+            var result = await _employeeService.AddAsync(employee);
+
+            // Assert
+            result.Should().BeTrue();
+        }
     }
 }

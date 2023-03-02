@@ -19,7 +19,7 @@ namespace GraphReview.Application.Services
             throw new NotImplementedException();
         }
 
-        public void Delete(Department department)
+        public Task<bool> DeleteAsync(string id, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }

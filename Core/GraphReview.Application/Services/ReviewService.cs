@@ -10,7 +10,7 @@ namespace GraphReview.Application.Services
             throw new NotImplementedException();
         }
 
-        public void Delete(Review review)
+        public Task<bool> DeleteAsync(string id, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
