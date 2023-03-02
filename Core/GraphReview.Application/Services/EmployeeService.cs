@@ -31,7 +31,7 @@ namespace GraphReview.Application.Services
         {
             var employee = await _unitOfWork.EmployeeRepository
                 .GetByIdAsync(id, cancellationToken) ??
-                throw new EmployeeNotFoundException("Employee not found!"); ;
+                throw new EmployeeNotFoundException("Employee not found!");
 
             _unitOfWork.EmployeeRepository
                 .Delete(employee);

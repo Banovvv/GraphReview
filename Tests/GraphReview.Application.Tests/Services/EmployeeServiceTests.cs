@@ -14,7 +14,7 @@ namespace GraphReview.Application.Tests.Services
     {
         private readonly IFixture _fixture;
         private readonly Mock<IUnitOfWork> _unitOfWork;
-        private readonly IEmployeeService _employeeService;
+        private readonly EmployeeService _employeeService;
         private readonly Mock<IEmployeeRepository> _employeeRepository;
 
         public EmployeeServiceTests()

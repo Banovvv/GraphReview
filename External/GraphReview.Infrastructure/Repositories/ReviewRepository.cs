@@ -4,9 +4,9 @@ using GraphReview.Infrastructure.Data;
 
 namespace GraphReview.Infrastructure.Repositories
 {
-    public class DepartmentRepository : GenericRepository<Department>, IDepartmentRepository
+    public class ReviewRepository : GenericRepository<Review>, IReviewRepository
     {
-        public DepartmentRepository(ApplicationDbContext context)
+        public ReviewRepository(ApplicationDbContext context)
             : base(context)
         {
         }

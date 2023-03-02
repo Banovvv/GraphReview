@@ -13,11 +13,12 @@ namespace GraphReview.Infrastructure
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
+            ReviewRepository = new ReviewRepository(_context);
             EmployeeRepository = new EmployeeRepository(_context);
             DepartmentRepository = new DepartmentRepository(_context);
         }
 
-        public IReviewRepository ReviewRepository => throw new NotImplementedException();
+        public IReviewRepository ReviewRepository { get; }
 
         public IEmployeeRepository EmployeeRepository { get; }
 
