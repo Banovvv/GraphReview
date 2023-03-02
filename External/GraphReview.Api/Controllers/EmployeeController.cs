@@ -16,10 +16,10 @@ namespace GraphReview.Api.Controllers
             _employeeService = employeeService;
         }
 
-        [HttpGet]
+        [HttpGet("GetById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<EmployeeResponse>> GetEmployeeById(string id)
+        public async Task<ActionResult<EmployeeResponse>> GetEmployeeByIdAsync(string id)
         {
             var employee = await _employeeService
                 .GetByIdAsync(id);
@@ -40,16 +40,16 @@ namespace GraphReview.Api.Controllers
             return Ok(response);
         }
 
-        [HttpPost]
+        [HttpPost("AddEmployee")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<EmployeeResponse>> CreateEmployee(EmployeeRequest request)
+        public async Task<ActionResult<EmployeeResponse>> AddEmployeeAsync(EmployeeRequest request)
         {
             var employee = new Employee(request.FirstName, request.LastName, request.Email);
 
             await _employeeService
                 .AddAsync(employee);
 
-            return CreatedAtAction(nameof(GetEmployeeById), new { id = employee.Id });
+            return CreatedAtAction(nameof(GetEmployeeByIdAsync), new { id = employee.Id });
         }
     }
 }

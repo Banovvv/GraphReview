@@ -16,10 +16,10 @@ namespace GraphReview.Api.Controllers
             _departmentService = departmentService;
         }
 
-        [HttpGet]
+        [HttpGet("GetById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<DepartmentResponse>> GetDepartmentById(string id)
+        public async Task<ActionResult<DepartmentResponse>> GetDepartmentByIdAsync(string id)
         {
             var department = await _departmentService
                 .GetByIdAsync(id);
@@ -38,16 +38,16 @@ namespace GraphReview.Api.Controllers
             return Ok(response);
         }
 
-        [HttpPost]
+        [HttpPost("AddDepartment")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult<DepartmentResponse>> CreateEmployee(DepartmentRequest request)
+        public async Task<ActionResult<DepartmentResponse>> AddDepartmentAsync(DepartmentRequest request)
         {
             var department = new Department(request.Name);
 
             await _departmentService
                 .AddAsync(department);
 
-            return CreatedAtAction(nameof(GetDepartmentById), new { id = department.Id });
+            return CreatedAtAction(nameof(GetDepartmentByIdAsync), new { id = department.Id });
         }
     }
 }
