@@ -46,7 +46,8 @@ namespace GraphReview.Api.Controllers
         {
             var employee = new Employee(request.FirstName, request.LastName, request.Email);
 
-            await _employeeService.AddAsync(employee);
+            await _employeeService
+                .AddAsync(employee);
 
             return CreatedAtAction(nameof(GetEmployeeById), new { id = employee.Id });
         }

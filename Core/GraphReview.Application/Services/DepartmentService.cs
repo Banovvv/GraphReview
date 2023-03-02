@@ -14,14 +14,32 @@ namespace GraphReview.Application.Services
             _unitOfWork = unitOfWork;
         }
 
-        public Task<bool> AddAsync(Department department, CancellationToken cancellationToken = default)
+        public async Task<bool> AddAsync(Department department, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            department.Id = Guid.NewGuid().ToString();
+
+            await _unitOfWork.DepartmentRepository
+                .AddAsync(department, cancellationToken);
+
+            await _unitOfWork
+                .SaveChangesAsync(cancellationToken);
+
+            return true;
         }
 
-        public Task<bool> DeleteAsync(string id, CancellationToken cancellationToken = default)
+        public async Task<bool> DeleteAsync(string id, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var department = await _unitOfWork.DepartmentRepository
+                .GetByIdAsync(id, cancellationToken) ??
+                throw new DepartmentNotFoundException("Department not found!"); ;
+
+            _unitOfWork.DepartmentRepository
+                .Delete(department);
+
+            await _unitOfWork
+                .SaveChangesAsync(cancellationToken);
+
+            return true;
         }
 
         public async Task<IEnumerable<Department>> GetAllAsync(CancellationToken cancellationToken = default)

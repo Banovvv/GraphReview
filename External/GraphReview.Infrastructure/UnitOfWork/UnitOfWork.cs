@@ -14,13 +14,14 @@ namespace GraphReview.Infrastructure
         {
             _context = context;
             EmployeeRepository = new EmployeeRepository(_context);
+            DepartmentRepository = new DepartmentRepository(_context);
         }
 
         public IReviewRepository ReviewRepository => throw new NotImplementedException();
 
         public IEmployeeRepository EmployeeRepository { get; }
 
-        public IDepartmentRepository DepartmentRepository => throw new NotImplementedException();
+        public IDepartmentRepository DepartmentRepository { get; }
 
         public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
