@@ -17,11 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Core\GraphReview.Application\GraphReview.Application.csproj" />
+    <ProjectReference Include="..\GraphReview.Contracts\GraphReview.Contracts.csproj" />
     <ProjectReference Include="..\GraphReview.Infrastructure\GraphReview.Infrastructure.csproj" />
   </ItemGroup>
 

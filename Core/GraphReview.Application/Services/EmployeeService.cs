@@ -16,6 +16,8 @@ namespace GraphReview.Application.Services
 
         public async Task<bool> AddAsync(Employee employee, CancellationToken cancellationToken = default)
         {
+            employee.Id = Guid.NewGuid().ToString();
+
             await _unitOfWork.EmployeeRepository
                 .AddAsync(employee, cancellationToken);
 
