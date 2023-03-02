@@ -1,28 +1,58 @@
 ﻿using GraphReview.Application.Abstractions.Reviews;
+using GraphReview.Domain.Exceptions;
 using GraphReview.Domain.Models;
+using GraphReview.Domain.UnitOfWork;
 
 namespace GraphReview.Application.Services
 {
     public class ReviewService : IReviewService
     {
-        public Task<bool> AddAsync(Review review, CancellationToken cancellationToken = default)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public ReviewService(IUnitOfWork unitOfWork)
         {
-            throw new NotImplementedException();
+            _unitOfWork = unitOfWork;
         }
 
-        public Task<bool> DeleteAsync(string id, CancellationToken cancellationToken = default)
+        public async Task<bool> AddAsync(Review review, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            review.Id = Guid.NewGuid().ToString();
+
+            await _unitOfWork.ReviewRepository
+                .AddAsync(review, cancellationToken);
+
+            await _unitOfWork
+                .SaveChangesAsync(cancellationToken);
+
+            return true;
         }
 
-        public Task<IEnumerable<Review>> GetAllAsync(CancellationToken cancellationToken = default)
+        public async Task<bool> DeleteAsync(string id, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var review = await _unitOfWork.ReviewRepository
+                .GetByIdAsync(id, cancellationToken) ??
+                throw new ReviewNotFoundException("Review not found!");
+
+            _unitOfWork.ReviewRepository
+                .Delete(review);
+
+            await _unitOfWork
+                .SaveChangesAsync(cancellationToken);
+
+            return true;
         }
 
-        public Task<Review> GetByIdAsync(string id, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Review>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await _unitOfWork.ReviewRepository
+                .GetAllAsync(cancellationToken);
+        }
+
+        public async Task<Review> GetByIdAsync(string id, CancellationToken cancellationToken = default)
+        {
+            return await _unitOfWork.ReviewRepository
+                .GetByIdAsync(id, cancellationToken) ??
+                throw new ReviewNotFoundException("Review not found!");
         }
     }
 }
