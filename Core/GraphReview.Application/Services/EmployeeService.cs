@@ -19,9 +19,17 @@ namespace GraphReview.Application.Services
             throw new NotImplementedException();
         }
 
-        public void Delete(Employee employee)
+        public async Task DeleteAsync(string id, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var employee = await _unitOfWork.EmployeeRepository
+                .GetByIdAsync(id, cancellationToken) ??
+                throw new EmployeeNotFoundException("Employee not found!"); ;
+
+            _unitOfWork.EmployeeRepository
+                .Delete(employee);
+
+            await _unitOfWork
+                .SaveChangesAsync(cancellationToken);
         }
 
         public async Task<IEnumerable<Employee>> GetAllAsync(CancellationToken cancellationToken = default)
