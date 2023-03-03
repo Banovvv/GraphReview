@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using GraphReview.Application.Constants;
 using GraphReview.Application.Services;
 using GraphReview.Application.Tests.Helpers;
 using GraphReview.Domain.Exceptions;
@@ -57,7 +58,7 @@ namespace GraphReview.Application.Tests.Services
             // Assert
             await act.Should()
                 .ThrowAsync<DepartmentNotFoundException>()
-                .WithMessage("Department not found!");
+                .WithMessage(string.Format(ValidationMessages.DepartmentNotFound, id));
         }
 
         [Fact]
@@ -102,7 +103,7 @@ namespace GraphReview.Application.Tests.Services
             // Assert
             await act.Should()
                 .ThrowAsync<DepartmentNotFoundException>()
-                .WithMessage("Department not found!");
+                .WithMessage(string.Format(ValidationMessages.DepartmentNotFound, id));
         }
 
         [Fact]

@@ -1,4 +1,5 @@
 ﻿using GraphReview.Application.Abstractions.Reviews;
+using GraphReview.Application.Constants;
 using GraphReview.Domain.Exceptions;
 using GraphReview.Domain.Models;
 using GraphReview.Domain.UnitOfWork;
@@ -31,7 +32,7 @@ namespace GraphReview.Application.Services
         {
             var review = await _unitOfWork.ReviewRepository
                 .GetByIdAsync(id, cancellationToken) ??
-                throw new ReviewNotFoundException("Review not found!");
+                throw new ReviewNotFoundException(string.Format(ValidationMessages.ReviewNotFound, id));
 
             _unitOfWork.ReviewRepository
                 .Delete(review);
@@ -52,7 +53,7 @@ namespace GraphReview.Application.Services
         {
             return await _unitOfWork.ReviewRepository
                 .GetByIdAsync(id, cancellationToken) ??
-                throw new ReviewNotFoundException("Review not found!");
+                throw new ReviewNotFoundException(string.Format(ValidationMessages.ReviewNotFound, id));
         }
     }
 }

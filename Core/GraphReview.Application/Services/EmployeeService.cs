@@ -1,4 +1,5 @@
 ﻿using GraphReview.Application.Abstractions.Employees;
+using GraphReview.Application.Constants;
 using GraphReview.Domain.Exceptions;
 using GraphReview.Domain.Models;
 using GraphReview.Domain.UnitOfWork;
@@ -31,7 +32,7 @@ namespace GraphReview.Application.Services
         {
             var employee = await _unitOfWork.EmployeeRepository
                 .GetByIdAsync(id, cancellationToken) ??
-                throw new EmployeeNotFoundException("Employee not found!");
+                throw new EmployeeNotFoundException(string.Format(ValidationMessages.EmployeeNotFound, id));
 
             _unitOfWork.EmployeeRepository
                 .Delete(employee);
@@ -52,7 +53,7 @@ namespace GraphReview.Application.Services
         {
             var deparment = await _unitOfWork.DepartmentRepository
                 .GetByIdAsync(departmentId, cancellationToken) ??
-                throw new DepartmentNotFoundException("Department not found!");
+                throw new DepartmentNotFoundException(string.Format(ValidationMessages.DepartmentNotFound, departmentId));
 
             return await _unitOfWork.EmployeeRepository
                 .GetAllByDepartmentAsync(departmentId, cancellationToken);
@@ -62,7 +63,7 @@ namespace GraphReview.Application.Services
         {
             return await _unitOfWork.EmployeeRepository
                 .GetByIdAsync(id, cancellationToken) ??
-                throw new EmployeeNotFoundException("Employee not found!");
+                throw new EmployeeNotFoundException(string.Format(ValidationMessages.EmployeeNotFound, id));
         }
     }
 }

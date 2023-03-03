@@ -1,4 +1,5 @@
 ﻿using GraphReview.Application.Abstractions.Departments;
+using GraphReview.Application.Constants;
 using GraphReview.Domain.Exceptions;
 using GraphReview.Domain.Models;
 using GraphReview.Domain.UnitOfWork;
@@ -31,11 +32,11 @@ namespace GraphReview.Application.Services
         {
             var department = await _unitOfWork.DepartmentRepository
                 .GetByIdAsync(departmentId, cancellationToken) ??
-                throw new DepartmentNotFoundException("Department not found!");
+                throw new DepartmentNotFoundException(string.Format(ValidationMessages.DepartmentNotFound, departmentId));
 
             var employee = await _unitOfWork.EmployeeRepository
                 .GetByIdAsync(employeeId, cancellationToken) ??
-                throw new EmployeeNotFoundException("Employee not found!");
+                throw new EmployeeNotFoundException(string.Format(ValidationMessages.EmployeeNotFound, employeeId));
 
             _unitOfWork.DepartmentRepository.AddEmployee(department, employee);
 
@@ -48,7 +49,7 @@ namespace GraphReview.Application.Services
         {
             var department = await _unitOfWork.DepartmentRepository
                 .GetByIdAsync(id, cancellationToken) ??
-                throw new DepartmentNotFoundException("Department not found!");
+                throw new DepartmentNotFoundException(string.Format(ValidationMessages.DepartmentNotFound, id));
 
             _unitOfWork.DepartmentRepository
                 .Delete(department);
@@ -67,7 +68,7 @@ namespace GraphReview.Application.Services
         public async Task<Department?> GetByIdAsync(string id, CancellationToken cancellationToken = default)
         {
             return await _unitOfWork.DepartmentRepository.GetByIdAsync(id, cancellationToken) ??
-                throw new DepartmentNotFoundException("Department not found!");
+                throw new DepartmentNotFoundException(string.Format(ValidationMessages.DepartmentNotFound, id));
         }
     }
 }

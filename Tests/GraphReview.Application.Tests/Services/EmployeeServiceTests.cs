@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using GraphReview.Application.Abstractions.Employees;
+using GraphReview.Application.Constants;
 using GraphReview.Application.Services;
 using GraphReview.Application.Tests.Helpers;
 using GraphReview.Domain.Exceptions;
@@ -58,7 +59,7 @@ namespace GraphReview.Application.Tests.Services
             // Assert
             await act.Should()
                 .ThrowAsync<EmployeeNotFoundException>()
-                .WithMessage("Employee not found!");
+                .WithMessage(string.Format(ValidationMessages.EmployeeNotFound, id));
         }
 
         [Fact]
@@ -108,7 +109,7 @@ namespace GraphReview.Application.Tests.Services
             // Assert
             await act.Should()
                 .ThrowAsync<DepartmentNotFoundException>()
-                .WithMessage("Department not found!");
+                .WithMessage(string.Format(ValidationMessages.DepartmentNotFound, departmentId));
         }
 
         [Fact]
@@ -138,7 +139,7 @@ namespace GraphReview.Application.Tests.Services
             // Assert
             await act.Should()
                 .ThrowAsync<EmployeeNotFoundException>()
-                .WithMessage("Employee not found!");
+                .WithMessage(string.Format(ValidationMessages.EmployeeNotFound, id));
         }
 
         [Fact]
