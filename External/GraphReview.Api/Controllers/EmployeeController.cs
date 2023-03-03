@@ -1,4 +1,5 @@
 ﻿using GraphReview.Application.Abstractions.Employees;
+using GraphReview.Contracts.Department;
 using GraphReview.Contracts.Employee;
 using GraphReview.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,24 @@ namespace GraphReview.Api.Controllers
         public EmployeeController(IEmployeeService employeeService)
         {
             _employeeService = employeeService;
+        }
+
+        [HttpGet("GetAll")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<DepartmentResponse>>> GetAllAsync()
+        {
+            var departments = await _employeeService.GetAllAsync();
+
+            var response = departments
+                .Select(x => new EmployeeResponse()
+                {
+                    Id = x.Id,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    Email = x.Email
+                });
+
+            return Ok(response);
         }
 
         [HttpGet("GetById")]

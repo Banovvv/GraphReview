@@ -9,6 +9,6 @@ namespace GraphReview.Application.Abstractions.Departments
         Task<IEnumerable<Department>> GetAllAsync(CancellationToken cancellationToken = default);
         Task<bool> AddAsync(Department department, CancellationToken cancellationToken = default);
         Task<bool> DeleteAsync(string id, CancellationToken cancellationToken = default);
-        Task<bool> AddEmployeeAsync(string departmentId, string employeeId, CancellationToken cancellationToken = default);
+        Task<Department> AddEmployeeAsync(string departmentId, string employeeId, CancellationToken cancellationToken = default);
     }
 }

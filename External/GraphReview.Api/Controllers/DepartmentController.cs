@@ -1,5 +1,6 @@
 ﻿using GraphReview.Application.Abstractions.Departments;
 using GraphReview.Contracts.Department;
+using GraphReview.Contracts.Employee;
 using GraphReview.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +15,22 @@ namespace GraphReview.Api.Controllers
         public DepartmentController(IDepartmentService departmentService)
         {
             _departmentService = departmentService;
+        }
+
+        [HttpGet("GetAll")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IEnumerable<DepartmentResponse>>> GetAllAsync()
+        {
+            var departments = await _departmentService.GetAllAsync();
+
+            var response = departments
+                .Select(x => new DepartmentResponse()
+                {
+                    Id = x.Id,
+                    Name = x.Name
+                });
+
+            return Ok(response);
         }
 
         [HttpGet("GetById")]
@@ -53,17 +70,32 @@ namespace GraphReview.Api.Controllers
         [HttpPost("AddEmployee")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> AddEmployeeToDepartmentAsync(AddEmployeeRequest request)
+        public async Task<ActionResult<AddEmployeeResponse>> AddEmployeeToDepartmentAsync(AddEmployeeRequest request)
         {
             var result = await _departmentService
                 .AddEmployeeAsync(request.DepartmentId, request.EmployeeId);
 
-            if (!result)
+            if (result == null)
             {
                 return BadRequest();
             }
 
-            return Ok();
+            var response = new AddEmployeeResponse()
+            {
+                Id = result.Id,
+                Name = result.Name,
+                Employees = result.Employees
+                    .Select(x => new EmployeeResponse()
+                    {
+                        Id = x.Id,
+                        FirstName = x.FirstName,
+                        LastName = x.LastName,
+                        Email = x.Email
+                    })
+                    .ToList()
+            };
+
+            return Ok(response);
         }
     }
 }

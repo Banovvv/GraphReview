@@ -27,7 +27,7 @@ namespace GraphReview.Application.Services
             return true;
         }
 
-        public async Task<bool> AddEmployeeAsync(string departmentId, string employeeId, CancellationToken cancellationToken = default)
+        public async Task<Department> AddEmployeeAsync(string departmentId, string employeeId, CancellationToken cancellationToken = default)
         {
             var department = await _unitOfWork.DepartmentRepository
                 .GetByIdAsync(departmentId, cancellationToken) ??
@@ -41,7 +41,7 @@ namespace GraphReview.Application.Services
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return true;
+            return department;
         }
 
         public async Task<bool> DeleteAsync(string id, CancellationToken cancellationToken = default)
