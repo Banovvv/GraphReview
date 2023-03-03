@@ -71,9 +71,9 @@ namespace GraphReview.Api.Tests.Controllers
             }
         }
 
-        public static T? GetObjectResultContent<T>(ActionResult<T> result)
+        public static T GetObjectResultContent<T>(ActionResult<T> result)
         {
-            return (T?)((ObjectResult?)result?.Result)?.Value;
+            return (T)((ObjectResult)result.Result).Value;
         }
     }
 }
