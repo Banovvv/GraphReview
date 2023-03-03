@@ -30,14 +30,14 @@ namespace GraphReview.Application.Services
         public async Task<bool> AddEmployeeAsync(string departmentId, string employeeId, CancellationToken cancellationToken = default)
         {
             var department = await _unitOfWork.DepartmentRepository
-                .GetByIdAsync(departmentId) ??
+                .GetByIdAsync(departmentId, cancellationToken) ??
                 throw new DepartmentNotFoundException("Department not found!");
 
             var employee = await _unitOfWork.EmployeeRepository
                 .GetByIdAsync(employeeId, cancellationToken) ??
                 throw new EmployeeNotFoundException("Employee not found!");
 
-            department.Employees.Add(employee);
+            _unitOfWork.DepartmentRepository.AddEmployee(department, employee);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

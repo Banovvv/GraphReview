@@ -10,5 +10,10 @@ namespace GraphReview.Infrastructure.Repositories
             : base(context)
         {
         }
+
+        public void AddEmployee(Department department, Employee employee)
+        {
+            department.Employees.Add(employee);
+        }
     }
 }
