@@ -49,5 +49,21 @@ namespace GraphReview.Api.Controllers
 
             return CreatedAtAction(nameof(GetDepartmentByIdAsync), new { id = department.Id });
         }
+
+        [HttpPost("AddEmployee")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> AddEmployeeToDepartmentAsync(AddEmployeeRequest request)
+        {
+            var result = await _departmentService
+                .AddEmployeeAsync(request.DepartmentId, request.EmployeeId);
+
+            if (!result)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+        }
     }
 }

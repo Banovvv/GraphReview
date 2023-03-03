@@ -27,11 +27,28 @@ namespace GraphReview.Application.Services
             return true;
         }
 
+        public async Task<bool> AddEmployeeAsync(string departmentId, string employeeId, CancellationToken cancellationToken = default)
+        {
+            var department = await _unitOfWork.DepartmentRepository
+                .GetByIdAsync(departmentId) ??
+                throw new DepartmentNotFoundException("Department not found!");
+
+            var employee = await _unitOfWork.EmployeeRepository
+                .GetByIdAsync(employeeId, cancellationToken) ??
+                throw new EmployeeNotFoundException("Employee not found!");
+
+            department.Employees.Add(employee);
+
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            return true;
+        }
+
         public async Task<bool> DeleteAsync(string id, CancellationToken cancellationToken = default)
         {
             var department = await _unitOfWork.DepartmentRepository
                 .GetByIdAsync(id, cancellationToken) ??
-                throw new DepartmentNotFoundException("Department not found!"); ;
+                throw new DepartmentNotFoundException("Department not found!");
 
             _unitOfWork.DepartmentRepository
                 .Delete(department);
