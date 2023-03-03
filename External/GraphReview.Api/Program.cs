@@ -1,3 +1,4 @@
+using GraphReview.Api.Middlewares;
 using GraphReview.Application;
 using GraphReview.Infrastructure;
 using GraphReview.Infrastructure.Data;
@@ -14,6 +15,8 @@ namespace GraphReview.Api
                 builder.Services.AddSwaggerGen();
                 builder.Services.AddControllers();
                 builder.Services.AddEndpointsApiExplorer();
+
+                builder.Services.AddTransient<GlobalExceptionHandlingMiddleware>();
 
                 builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 {
@@ -32,6 +35,8 @@ namespace GraphReview.Api
                     app.UseSwagger();
                     app.UseSwaggerUI();
                 }
+
+                app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
                 app.UseHttpsRedirection();
 
