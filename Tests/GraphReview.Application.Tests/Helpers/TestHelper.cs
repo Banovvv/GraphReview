@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GraphReview.Application.Tests.Helpers
 {
@@ -14,6 +15,11 @@ namespace GraphReview.Application.Tests.Helpers
             fixture.Behaviors.Add(new OmitOnRecursionBehavior());
 
             return fixture;
+        }
+
+        public static T GetObjectResultContent<T>(ActionResult<T> result)
+        {
+            return (T)((ObjectResult)result.Result).Value;
         }
     }
 }
