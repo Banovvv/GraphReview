@@ -1,5 +1,7 @@
 ﻿using FluentAssertions;
 using GraphReview.Api.Middlewares;
+using GraphReview.Application.Constants;
+using GraphReview.Domain.Exceptions;
 using Microsoft.AspNetCore.Http;
 using System.Net;
 
@@ -19,7 +21,6 @@ namespace GraphReview.Api.Tests.Middlewares
         {
             // Arange
             var context = new DefaultHttpContext();
-            var exception = new ArgumentNullException();
 
             static Task requestDelegate(HttpContext HttpContext)
             {
@@ -32,6 +33,25 @@ namespace GraphReview.Api.Tests.Middlewares
             // Assert
             context.Response.ContentType.Should().Be("application/json");
             context.Response.StatusCode.Should().Be((int)HttpStatusCode.InternalServerError);
+        }
+
+        [Fact]
+        public async Task GivenThatNotFoundExceptionIsThrown_WhenInvokeAsyncIsInvoked_ThenProblemResponseIsRetured()
+        {
+            // Arange
+            var context = new DefaultHttpContext();
+
+            static Task requestDelegate(HttpContext HttpContext)
+            {
+                return Task.FromException(new EmployeeNotFoundException(ValidationMessages.EmployeeNotFound));
+            }
+
+            // Act
+            await _middleware.InvokeAsync(context, requestDelegate);
+
+            // Assert
+            context.Response.ContentType.Should().Be("application/json");
+            context.Response.StatusCode.Should().Be((int)HttpStatusCode.NotFound);
         }
 
         [Fact]

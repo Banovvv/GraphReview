@@ -34,8 +34,10 @@ namespace GraphReview.Api.Middlewares
             {
                 context.Response.StatusCode = (int)HttpStatusCode.NotFound;
             }
-
-            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            else
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            }            
 
             var problem = new ProblemDetails()
             {
