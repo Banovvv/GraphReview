@@ -12,9 +12,17 @@ namespace GraphReview.Api
         {
             var builder = WebApplication.CreateBuilder(args);
             {
+                var configuration = builder.Configuration;
+
+                configuration
+                    .AddJsonFile("appsettings.json", false)
+                    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true);
+
                 builder.Services.AddSwaggerGen();
                 builder.Services.AddControllers();
                 builder.Services.AddEndpointsApiExplorer();
+
+                builder.Services.AddSingleton<IConfiguration>(configuration);
 
                 builder.Services.AddTransient<GlobalExceptionHandlingMiddleware>();
 
