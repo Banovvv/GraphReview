@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GraphReview.Domain.Exceptions.Base;
+using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Text.Json;
 
@@ -29,9 +30,12 @@ namespace GraphReview.Api.Middlewares
         {
             //_logger.LogError(ex, ex.Message, ex.StackTrace);
 
-            context.Response.StatusCode = ex.Message.Contains("not found") ?
-                (int)HttpStatusCode.NotFound :
-                (int)HttpStatusCode.InternalServerError;
+            if (ex is NotFoundException)
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+            }
+
+            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
             var problem = new ProblemDetails()
             {
