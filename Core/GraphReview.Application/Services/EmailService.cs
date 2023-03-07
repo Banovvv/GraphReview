@@ -1,4 +1,5 @@
-﻿using Azure.Identity;
+﻿using Ardalis.GuardClauses;
+using Azure.Identity;
 using GraphReview.Application.Abstractions.Email;
 using GraphReview.Application.Models;
 using Microsoft.Extensions.Configuration;
@@ -38,58 +39,51 @@ namespace GraphReview.Application.Services
 
         public async Task<Message> SendEmailAsync(EmailObject emailObject)
         {
+            ArgumentNullException.ThrowIfNull(emailObject, nameof(emailObject));
+
             var message = new Message();
 
-            if (!string.IsNullOrEmpty(emailObject.From))
+            message.From = new Recipient()
             {
-                message.From = new Recipient()
+                EmailAddress = new EmailAddress
+                {
+                    Address = Guard.Against.NullOrWhiteSpace(emailObject.From),
+                }
+            };
+
+            message.ReplyTo = new List<Recipient>()
+            {
+                new Recipient()
                 {
                     EmailAddress = new EmailAddress
                     {
-                        Address = emailObject.From,
+                        Address = Guard.Against.NullOrWhiteSpace(emailObject.ReplyTo),
                     }
-                };
-            }
+                }
+            };
 
-            if (!string.IsNullOrEmpty(emailObject.ReplyTo))
-            {
-                message.ReplyTo = new List<Recipient>()
-                {
-                    new Recipient()
-                    {
-                        EmailAddress = new EmailAddress
-                        {
-                            Address = emailObject.ReplyTo,
-                        }
-                    }
-                };
-            }
-
-            message.Subject = emailObject.Subject ?? string.Empty;
+            message.Subject = Guard.Against.NullOrWhiteSpace(emailObject.Subject);
 
             message.Body = new ItemBody
             {
                 ContentType = BodyType.Html,
-                Content = emailObject.Body ?? string.Empty
+                Content = Guard.Against.NullOrWhiteSpace(emailObject.Body)
             };
 
-            if (emailObject.Recipients != null)
+            var recepients = new List<Recipient>();
+
+            foreach (string recipient in Guard.Against.NullOrEmpty(emailObject.Recipients))
             {
-                var recepients = new List<Recipient>();
-
-                foreach (string recipient in emailObject.Recipients)
+                recepients.Add(new Recipient()
                 {
-                    recepients.Add(new Recipient()
+                    EmailAddress = new EmailAddress
                     {
-                        EmailAddress = new EmailAddress
-                        {
-                            Address = recipient,
-                        }
-                    });
-                }
-
-                message.ToRecipients = new List<Recipient>(recepients);
+                        Address = recipient,
+                    }
+                });
             }
+
+            message.ToRecipients = new List<Recipient>(recepients);
 
             await _graphClient
                 .Users[emailObject.From]
