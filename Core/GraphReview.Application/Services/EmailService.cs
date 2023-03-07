@@ -41,33 +41,34 @@ namespace GraphReview.Application.Services
         {
             ArgumentNullException.ThrowIfNull(emailObject, nameof(emailObject));
 
-            var message = new Message();
-
-            message.From = new Recipient()
+            var message = new Message
             {
-                EmailAddress = new EmailAddress
-                {
-                    Address = Guard.Against.NullOrWhiteSpace(emailObject.From),
-                }
-            };
-
-            message.ReplyTo = new List<Recipient>()
-            {
-                new Recipient()
+                From = new Recipient()
                 {
                     EmailAddress = new EmailAddress
                     {
-                        Address = Guard.Against.NullOrWhiteSpace(emailObject.ReplyTo),
+                        Address = Guard.Against.NullOrWhiteSpace(emailObject.From),
                     }
+                },
+
+                ReplyTo = new List<Recipient>()
+                {
+                    new Recipient()
+                    {
+                        EmailAddress = new EmailAddress
+                        {
+                            Address = Guard.Against.NullOrWhiteSpace(emailObject.ReplyTo),
+                        }
+                    }
+                },
+
+                Subject = Guard.Against.NullOrWhiteSpace(emailObject.Subject),
+
+                Body = new ItemBody
+                {
+                    ContentType = BodyType.Html,
+                    Content = Guard.Against.NullOrWhiteSpace(emailObject.Body)
                 }
-            };
-
-            message.Subject = Guard.Against.NullOrWhiteSpace(emailObject.Subject);
-
-            message.Body = new ItemBody
-            {
-                ContentType = BodyType.Html,
-                Content = Guard.Against.NullOrWhiteSpace(emailObject.Body)
             };
 
             var recepients = new List<Recipient>();

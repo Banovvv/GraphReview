@@ -1,6 +1,7 @@
 ﻿using GraphReview.Application.Abstractions.Reviews;
 using GraphReview.Contracts.Department;
 using GraphReview.Contracts.Review;
+using GraphReview.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GraphReview.Api.Controllers
@@ -55,6 +56,12 @@ namespace GraphReview.Api.Controllers
             };
 
             return Ok(response);
+        }
+
+        [HttpPost("AddReview")]
+        public async Task<ActionResult> AddReviewAsync(AddReviewRequest request)
+        {
+            return BadRequest();
         }
     }
 }
