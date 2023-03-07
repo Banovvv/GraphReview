@@ -36,9 +36,68 @@ namespace GraphReview.Application.Services
             throw new NotImplementedException();
         }
 
-        public Task<Message> SendEmailAsync(EmailObject emailObject)
+        public async Task<Message> SendEmailAsync(EmailObject emailObject)
         {
-            throw new NotImplementedException();
+            var message = new Message();
+
+            if (!string.IsNullOrEmpty(emailObject.From))
+            {
+                message.From = new Recipient()
+                {
+                    EmailAddress = new EmailAddress
+                    {
+                        Address = emailObject.From,
+                    }
+                };
+            }
+
+            if (!string.IsNullOrEmpty(emailObject.ReplyTo))
+            {
+                message.ReplyTo = new List<Recipient>()
+                {
+                    new Recipient()
+                    {
+                        EmailAddress = new EmailAddress
+                        {
+                            Address = emailObject.ReplyTo,
+                        }
+                    }
+                };
+            }
+
+            message.Subject = emailObject.Subject ?? string.Empty;
+
+            message.Body = new ItemBody
+            {
+                ContentType = BodyType.Html,
+                Content = emailObject.Body ?? string.Empty
+            };
+
+            if (emailObject.Recipients != null)
+            {
+                var recepients = new List<Recipient>();
+
+                foreach (string recipient in emailObject.Recipients)
+                {
+                    recepients.Add(new Recipient()
+                    {
+                        EmailAddress = new EmailAddress
+                        {
+                            Address = recipient,
+                        }
+                    });
+                }
+
+                message.ToRecipients = new List<Recipient>(recepients);
+            }
+
+            await _graphClient
+                .Users[emailObject.From]
+                .SendMail(message, true)
+                .Request()
+                .PostAsync();
+
+            return message;
         }
     }
 }
