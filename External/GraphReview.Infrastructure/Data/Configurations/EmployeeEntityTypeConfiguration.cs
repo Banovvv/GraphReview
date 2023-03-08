@@ -34,13 +34,12 @@ namespace GraphReview.Infrastructure.Data.Configurations
                 .HasMaxLength(ConfigurationConstants.IdMaxLength)
                 .IsUnicode();
 
-            employee.HasMany(x => x.Reviews)
-                .WithOne(r => r.Reviewee)
-                .HasForeignKey(x => x.RevieweeId);
-
             employee.HasOne(x => x.Department)
                 .WithMany(d => d.Employees)
                 .HasForeignKey(x => x.DepartmentId);
+
+            employee.HasMany(x => x.Reviews)
+                .WithMany(r => r.Attendees);
         }
     }
 }

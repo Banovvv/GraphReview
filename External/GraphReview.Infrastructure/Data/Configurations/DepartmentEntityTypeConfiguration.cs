@@ -19,18 +19,9 @@ namespace GraphReview.Infrastructure.Data.Configurations
                 .HasMaxLength(ConfigurationConstants.NameMaxLength)
                 .IsUnicode();
 
-            department.Property(x => x.ManagerId)
-                .IsRequired(false)
-                .HasMaxLength(ConfigurationConstants.IdMaxLength)
-                .IsUnicode();
-
             department.HasMany(x => x.Employees)
                 .WithOne(e => e.Department)
                 .HasForeignKey(x => x.DepartmentId);
-
-            department.HasOne(x => x.Manager)
-                .WithOne(m => m.ManagedDepartment)
-                .HasForeignKey<Employee>(x => x.ManagedDepartmentId);
         }
     }
 }

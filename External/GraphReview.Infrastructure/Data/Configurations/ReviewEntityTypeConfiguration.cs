@@ -14,12 +14,6 @@ namespace GraphReview.Infrastructure.Data.Configurations
                 .HasMaxLength(ConfigurationConstants.IdMaxLength)
                 .IsUnicode();
 
-            review.Property(x => x.ReviewerId)
-                .IsRequired();
-
-            review.Property(x => x.RevieweeId)
-                .IsRequired();
-
             review.Property(x => x.StartTime)
                 .IsRequired();
 
@@ -29,15 +23,8 @@ namespace GraphReview.Infrastructure.Data.Configurations
             review.Property(x => x.Duration)
                 .IsRequired();
 
-            review.HasOne(x => x.Reviewer)
-                .WithMany(r => r.ReviewsAsReviewer)
-                .HasForeignKey(x => x.ReviewerId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            review.HasOne(x => x.Reviewee)
-                .WithMany(r => r.Reviews)
-                .HasForeignKey(x => x.RevieweeId)
-                .OnDelete(DeleteBehavior.NoAction);
+            review.HasMany(x => x.Attendees)
+                .WithMany(r => r.Reviews);
         }
     }
 }
