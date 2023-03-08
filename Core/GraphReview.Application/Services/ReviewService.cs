@@ -15,9 +15,12 @@ namespace GraphReview.Application.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<bool> AddAsync(Review review, CancellationToken cancellationToken = default)
+        public async Task<bool> AddAsync(List<string> attendeeIds, DateTime startTime, int duration, CancellationToken cancellationToken = default)
         {
-            review.Id = Guid.NewGuid().ToString();
+            var review = new Review(startTime, duration)
+            {
+                Id = Guid.NewGuid().ToString()
+            };
 
             await _unitOfWork.ReviewRepository
                 .AddAsync(review, cancellationToken);
