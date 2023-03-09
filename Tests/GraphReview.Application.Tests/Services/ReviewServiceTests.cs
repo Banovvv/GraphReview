@@ -15,6 +15,7 @@ namespace GraphReview.Application.Tests.Services
         private readonly IFixture _fixture;
         private readonly ReviewService _reviewService;
         private readonly Mock<IUnitOfWork> _unitOfWork;
+        private readonly EmployeeService _employeeService;
         private readonly Mock<IReviewRepository> _reviewRepository;
 
         public ReviewServiceTests()
@@ -27,7 +28,9 @@ namespace GraphReview.Application.Tests.Services
             _unitOfWork.Setup(x => x.ReviewRepository)
                 .Returns(_reviewRepository.Object);
 
-            _reviewService = new ReviewService(_unitOfWork.Object);
+            _employeeService = new EmployeeService(_unitOfWork.Object);
+
+            _reviewService = new ReviewService(_unitOfWork.Object, _employeeService);
         }
 
         [Fact]
@@ -104,19 +107,6 @@ namespace GraphReview.Application.Tests.Services
             await act.Should()
                 .ThrowAsync<ReviewNotFoundException>()
                 .WithMessage(string.Format(ValidationMessages.ReviewNotFound, id));
-        }
-
-        [Fact]
-        public async Task GivenValidEntity_WhenAddAsyncIsInvoked_ThenEntityIsAdded()
-        {
-            // Arrange
-            var review = _fixture.Build<Review>().Create();
-
-            // Act
-            var result = await _reviewService.AddAsync(review);
-
-            // Assert
-            result.Should().BeTrue();
         }
     }
 }

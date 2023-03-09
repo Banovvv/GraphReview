@@ -20,7 +20,6 @@ namespace GraphReview.Application.Services
 
         public async Task<bool> AddAsync(List<string> attendeeIds, DateTime startTime, int duration, CancellationToken cancellationToken = default)
         {
-
             var review = new Review(startTime, duration)
             {
                 Id = Guid.NewGuid().ToString()
@@ -28,7 +27,7 @@ namespace GraphReview.Application.Services
 
             foreach (var id in attendeeIds)
             {
-                var employee = await _employeeService.GetByIdAsync(id);
+                var employee = await _employeeService.GetByIdAsync(id, cancellationToken);
                 review.Attendees.Add(employee);
             }
 
