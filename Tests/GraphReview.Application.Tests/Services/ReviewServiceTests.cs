@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using GraphReview.Application.Abstractions.Email;
 using GraphReview.Application.Constants;
 using GraphReview.Application.Services;
 using GraphReview.Application.Tests.Helpers;
@@ -6,6 +7,7 @@ using GraphReview.Domain.Exceptions;
 using GraphReview.Domain.Models;
 using GraphReview.Domain.Repositories;
 using GraphReview.Domain.UnitOfWork;
+using Microsoft.Extensions.Configuration;
 using Moq;
 
 namespace GraphReview.Application.Tests.Services
@@ -16,6 +18,8 @@ namespace GraphReview.Application.Tests.Services
         private readonly ReviewService _reviewService;
         private readonly Mock<IUnitOfWork> _unitOfWork;
         private readonly EmployeeService _employeeService;
+        private readonly Mock<IEmailService> _emailService;
+        private readonly Mock<IConfiguration> _configuration;
         private readonly Mock<IReviewRepository> _reviewRepository;
 
         public ReviewServiceTests()
@@ -28,9 +32,13 @@ namespace GraphReview.Application.Tests.Services
             _unitOfWork.Setup(x => x.ReviewRepository)
                 .Returns(_reviewRepository.Object);
 
+            _configuration = new Mock<IConfiguration>();
+
+            _emailService = new Mock<IEmailService>();
+
             _employeeService = new EmployeeService(_unitOfWork.Object);
 
-            _reviewService = new ReviewService(_unitOfWork.Object, _employeeService);
+            _reviewService = new ReviewService(_unitOfWork.Object, _emailService.Object, _configuration.Object, _employeeService);
         }
 
         [Fact]
