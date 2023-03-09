@@ -43,16 +43,18 @@ namespace GraphReview.Application.Services
             {
                 var employee = await _employeeService.GetByIdAsync(id, cancellationToken);
 
+                review.Attendees.Add(employee);
+
+                await _emailService.ScheduleEventAsync(review);
+
                 var email = new EmailObject(
                     _defaultSender,
                     _defaultSender,
-                    string.Empty,
-                    string.Empty,
+                    EmailConstants.EmailSubject,
+                    string.Format(EmailConstants.EmailBody, employee.FirstName, startTime.Date.ToShortDateString(), startTime.TimeOfDay),
                     new List<string>() { employee.Email });
 
                 await _emailService.SendEmailAsync(email);
-
-                review.Attendees.Add(employee);
             }
 
             await _unitOfWork.ReviewRepository

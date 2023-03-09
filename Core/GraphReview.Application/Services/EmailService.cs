@@ -1,9 +1,12 @@
 ﻿using Ardalis.GuardClauses;
 using Azure.Identity;
 using GraphReview.Application.Abstractions.Email;
+using GraphReview.Application.Constants;
 using GraphReview.Application.Models;
+using GraphReview.Domain.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Graph;
+using Microsoft.Graph.Extensions;
 
 namespace GraphReview.Application.Services
 {
@@ -32,9 +35,41 @@ namespace GraphReview.Application.Services
                 new[] { "https://graph.microsoft.com/.default" });
         }
 
-        public Task<Event> ScheduleEventAsync()
+        public async Task<Event> ScheduleEventAsync(Review review)
         {
-            throw new NotImplementedException();
+            var meeting = new Event()
+            {
+                Subject = EmailConstants.EmailSubject,
+
+                Start = new DateTimeTimeZone
+                {
+                    DateTime = review.StartTime.ToString("yyyy-MM-ddTHH:mm:ss"),
+                    TimeZone = "UTC"
+                },
+
+                End = new DateTimeTimeZone
+                {
+                    DateTime = review.EndTime.ToString("yyyy-MM-ddTHH:mm:ss"),
+                    TimeZone = "UTC"
+                },
+
+                Attendees = new List<Attendee>()
+                {
+                    new Attendee()
+                    {
+                        EmailAddress = new EmailAddress
+                        {
+                            Address = Guard.Against.NullOrWhiteSpace("ig@stptrans.com"),
+                        }
+                    }
+                }
+            };
+
+            return await _graphClient
+                .Users["ig@stptrans.com"]
+                .Events
+                .Request()
+                .AddAsync(meeting);
         }
 
         public async Task<Message> SendEmailAsync(EmailObject emailObject)
