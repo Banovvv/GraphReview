@@ -1,7 +1,6 @@
 ﻿using GraphReview.Application.Abstractions.Reviews;
 using GraphReview.Contracts.Department;
 using GraphReview.Contracts.Review;
-using GraphReview.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GraphReview.Api.Controllers
@@ -63,6 +62,11 @@ namespace GraphReview.Api.Controllers
         {
             var result = await _reviewService
                 .AddAsync(request.AttendeeIds, request.StartTime.ToUniversalTime(), request.Duration);
+
+            if (!result)
+            {
+                return BadRequest();
+            }
 
             return Ok();
         }
