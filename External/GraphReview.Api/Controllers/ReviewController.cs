@@ -61,7 +61,10 @@ namespace GraphReview.Api.Controllers
         [HttpPost("AddReview")]
         public async Task<ActionResult> AddReviewAsync(AddReviewRequest request)
         {
-            return BadRequest();
+            var result = await _reviewService
+                .AddAsync(request.AttendeeIds, request.StartTime.ToUniversalTime(), request.Duration);
+
+            return Ok();
         }
     }
 }
