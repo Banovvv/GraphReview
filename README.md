@@ -1,6 +1,18 @@
 # GraphReview
+Simple API used to schedule review meetings and send emails via MicrosoftGraph.
 
-## Architecture design
-![Architecture design](https://user-images.githubusercontent.com/44908454/221837508-17722543-74e1-4e04-bf2d-09cb993bfff9.png)
+## Design
+![test drawio (6)](https://user-images.githubusercontent.com/44908454/224314726-03609490-defe-402c-8fc2-ebb723fa2942.png)
 
-
+## Prerequisites
+```JSON
+  "ConnectionStrings": {
+    "SqlServer": "Server=localhost,1433;Database=Master;User Id=SA;Password=yourStrong(!)Password;TrustServerCertificate=True"
+  },
+  "MicrosofrGraph": {
+    "TenantId": "your-tenant-id",
+    "ClientId": "your-client-id",
+    "ClientSecret": "your-client-secret",
+    "DefaultSender": "your-default-email"
+  }
+```
