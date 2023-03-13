@@ -6,7 +6,6 @@ using GraphReview.Application.Models;
 using GraphReview.Domain.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Graph;
-using Microsoft.Graph.Extensions;
 
 namespace GraphReview.Application.Services
 {
@@ -53,23 +52,29 @@ namespace GraphReview.Application.Services
                     TimeZone = "UTC"
                 },
 
-                Attendees = new List<Attendee>()
-                {
-                    new Attendee()
-                    {
-                        EmailAddress = new EmailAddress
-                        {
-                            Address = Guard.Against.NullOrWhiteSpace("ig@stptrans.com"),
-                        }
-                    }
-                }
+                Attendees = new List<Attendee>(),
             };
 
-            return await _graphClient
-                .Users["ig@stptrans.com"]
-                .Events
-                .Request()
-                .AddAsync(meeting);
+            var attendees = new List<Attendee>();
+
+            foreach (var attendee in review.Attendees)
+            {
+                attendees.Add(new Attendee()
+                {
+                    EmailAddress = new EmailAddress
+                    {
+                        Address = Guard.Against.NullOrWhiteSpace(attendee.Email),
+                    }
+                });
+
+                await _graphClient
+                    .Users[attendee.Email]
+                    .Events
+                    .Request()
+                    .AddAsync(meeting);
+            }
+
+            return meeting;
         }
 
         public async Task<Message> SendEmailAsync(EmailObject emailObject)
