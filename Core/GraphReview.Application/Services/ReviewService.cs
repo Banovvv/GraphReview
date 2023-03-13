@@ -47,14 +47,17 @@ namespace GraphReview.Application.Services
 
                 await _emailService.ScheduleEventAsync(review);
 
-                var email = new EmailObject(
+                if (_defaultSender != employee.Email)
+                {
+                    var email = new EmailObject(
                     _defaultSender,
                     _defaultSender,
                     EmailConstants.EmailSubject,
                     string.Format(EmailConstants.EmailBody, employee.FirstName, startTime.Date.ToShortDateString(), startTime.TimeOfDay),
                     new List<string>() { employee.Email });
 
-                await _emailService.SendEmailAsync(email);
+                    await _emailService.SendEmailAsync(email);
+                }
             }
 
             await _unitOfWork.ReviewRepository

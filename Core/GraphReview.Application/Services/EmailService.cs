@@ -26,8 +26,7 @@ namespace GraphReview.Application.Services
             var token = new ClientSecretCredential(
                 _configuration["MicrosofrGraph:TenantId"],
                 _configuration["MicrosofrGraph:ClientId"],
-                _configuration["MicrosofrGraph:ClientSecret"],
-                options);
+                _configuration["MicrosofrGraph:ClientSecret"]);
 
             _graphClient = new GraphServiceClient(
                 token,
@@ -61,18 +60,26 @@ namespace GraphReview.Application.Services
             {
                 attendees.Add(new Attendee()
                 {
+                    Type = AttendeeType.Required,
+
                     EmailAddress = new EmailAddress
                     {
                         Address = Guard.Against.NullOrWhiteSpace(attendee.Email),
                     }
                 });
+            }
 
-                await _graphClient
-                    .Users[attendee.Email]
+            meeting.Attendees = attendees.ToList();
+
+            var organizer = review.Attendees
+                .First()
+                .Email;
+
+            await _graphClient
+                    .Users[organizer]
                     .Events
                     .Request()
-                    .AddAsync(meeting);
-            }
+                    .AddResponseAsync(meeting);
 
             return meeting;
         }

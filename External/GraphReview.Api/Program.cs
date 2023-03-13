@@ -28,7 +28,9 @@ namespace GraphReview.Api
 
                 builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 {
-                    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"));
+                    options
+                        .UseSqlServer(builder.Configuration.GetConnectionString("SqlServer"))
+                        .EnableDetailedErrors(true);
                 });
 
                 builder.Services.AddApplicationServices();
